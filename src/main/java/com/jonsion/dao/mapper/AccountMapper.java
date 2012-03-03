@@ -74,6 +74,18 @@ public interface AccountMapper extends SqlMapper {
 	public List<Account> getAllList(Account account) throws Exception; 
 
 	/** 
+	* 查询 
+	* 
+	* @param entity 
+	*            封装数据的实体 
+	* @return 返回查询结果 
+	* @throws Exception 
+	*             抛出所有异常 
+	*/ 
+	@Select("select t.userId userId,t.userName userName,t.userPassword userPassword from acount t where t.userName=#{userName}")
+	public List<Account> getAccountByUserName(Account account) throws Exception;
+	
+	/** 
 	* 查询数量 
 	* 
 	* @param entity 
