@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:security="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+                        http://www.springframework.org/schema/context   
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd  
+                        http://www.springframework.org/schema/aop   
+                        http://www.springframework.org/schema/aop/spring-aop-3.1.xsd  
+                        http://www.springframework.org/schema/tx   
+                        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+                        http://www.springframework.org/schema/mvc   
+                        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+                        http://www.springframework.org/schema/security  
+						http://www.springframework.org/schema/security/spring-security-3.1.xsd">  
+	
+	
+    <!-- 开启controller注解支持 -->
+    <!-- 注：如果base-package=com.jonsion 则注解事务不起作用 -->
+    <!--use-default-filters="false" 这个一定要要否则请求地址对的但跑不到controller里  报[project/register]等错误-->
+    <context:component-scan base-package="com.jonsion.web.controller" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" /> 
+    </context:component-scan>
+    
+    <!-- 默认的注解映射的支持 --> 
+    <mvc:annotation-driven/>
+    
+    <mvc:interceptors>  
+    <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />  
+  </mvc:interceptors>  
+  
+  <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />  
+  
+    <!-- 视图解释类 -->  
+    <!--    
+        org.springframework.web.servlet.view.ResourceBundleViewResolver  
+        用于多个视图集成时,ResourceBundleViewResolver是通过解析资源文件来解析请求输出文件的。  
+        <property name="basename" value="views"></property>,即表示在/WEB-INF/classes路径下有一个  
+        views.properties文件,本例中views.properties的内容为  
+        welcome.(class)=org.springframework.web.servlet.view.velocity.VelocityView  
+        welcome.url=welcome.vm  
+        freemarker.(class)=org.springframework.web.servlet.view.freemarker.FreeMarkerView  
+        freemarker.url=freemarker.ftl  
+    -->  
+    <bean class="org.springframework.web.servlet.view.ResourceBundleViewResolver">  
+        <property name="basename" value="views"></property>  
+        
+        <property name="order" value="0"></property>  
+         
+    </bean>  
+    
+    <!-- jsp视图解析器 --> 
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="prefix" value="/WEB-INF/views/"/>  
+        <property name="suffix" value=".jsp"/><!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑  -->  
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />  
+    </bean>  
+    
+     
+      
+    
+    
+    <!-- 拦截器 -->  
+    <!--<mvc:interceptors>  
+        <bean class="com.jonsion.mvc.MyInteceptor" />   
+    </mvc:interceptors>-->    
+      
+    <!-- 对静态资源文件的访问  方案一 （二选一） -->  
+    <!-- <mvc:default-servlet-handler/> -->  
+      
+    <!-- 对静态资源文件的访问  方案二 （二选一）-->  
+    <mvc:resources mapping="/images/**" location="/images/" cache-period="31556926"/>  
+    <mvc:resources mapping="/js/**" location="/js/" cache-period="31556926"/>  
+    <mvc:resources mapping="/css/**" location="/css/" cache-period="31556926"/>
+    <mvc:resources mapping="/style/**" location="/style/" cache-period="31556926"/>  
+    
+    
+   <!-- <security:global-method-security  
+        jsr250-annotations="enabled" secured-annotations="enabled" /> --> 
+</beans>

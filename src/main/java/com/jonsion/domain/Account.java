@@ -1,13 +1,14 @@
 package com.jonsion.domain;
 
 public class Account {
-	private String  userId;
+	private Integer  userId;
 	private String  userName;
 	private String userPassword;
-	public String getUserId() {
+	
+	public Integer getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 	public String getUserName() {
